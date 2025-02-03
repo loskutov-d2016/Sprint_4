@@ -9,8 +9,6 @@ public class MainPage {
 
     private final By topOrderButton = By.xpath("//*[@class='Button_Button__ra12g']");
 
-//    private final By bottomOrderButton = By.cssSelector(".Footer_Button__1jOjS");
-
     private final By importantQuestionsSection = By.className("accordion");
 
     public MainPage(WebDriver driver) {
@@ -24,10 +22,6 @@ public class MainPage {
     public void clickTopOrderButton() {
         driver.findElement(topOrderButton).click();
     }
-
-//    public void clickBottomOrderButton() {
-//        driver.findElement(bottomOrderButton).click();
-//    }
 
     public QuestionsPage openImportantQuestionsSection() {
         driver.findElement(importantQuestionsSection).isDisplayed();
