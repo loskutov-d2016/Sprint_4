@@ -1,21 +1,12 @@
 package praktikum;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import pages.MainPage;
 import pages.QuestionsPage;
 
 
-public class QuestionsTest {
-    private WebDriver driver;
-
-    @Before
-    public void setUp() {
-        driver = DriverManager.getDriver();
-    }
+public class QuestionsTest extends BaseTest {
 
     @Test
     public void testAllQuestionsOpenAnswers() {
@@ -24,6 +15,7 @@ public class QuestionsTest {
 
         QuestionsPage questionsPage = mainPage.openImportantQuestionsSection();
         questionsPage.waitForPageToLoad();
+        questionsPage.openImportantQuestionsSection();
 
         String[] expectedTexts = {
                 "Сутки — 400 рублей. Оплата курьеру — наличными или картой.",
@@ -41,18 +33,15 @@ public class QuestionsTest {
         };
 
         for (int i = 0; i < expectedTexts.length; i++) {
-            try {
-                questionsPage.clickQuestion(i);
-                Assert.assertTrue(questionsPage.isAnswerVisible(i), "Ответ на вопрос " + (i + 1) + " не отображается");
-                Assert.assertTrue(questionsPage.isAnswerTextCorrect(i, expectedTexts[i]), "Текст ответа на вопрос " + (i + 1) + " не соответствует ожидаемому");
-            } catch (Exception e) {
-                Assert.fail("Test failed for question " + (i + 1) + ": " + e.getMessage());
-            }
-        }
-    }
+            questionsPage.clickQuestion(i);
 
-    @After
-    public void tearDown() {
-        DriverManager.quitDriver();
+            // Проверка, что ответ отображается
+            boolean isAnswerVisible = questionsPage.isAnswerVisible(i);
+            Assert.assertTrue(isAnswerVisible, "Ответ на вопрос " + (i + 1) + " не отображается");
+
+            // Проверка, что текст ответа корректен
+            boolean isAnswerTextCorrect = questionsPage.isAnswerTextCorrect(i, expectedTexts[i]);
+            Assert.assertTrue(isAnswerTextCorrect, "Текст ответа на вопрос " + (i + 1) + " не соответствует ожидаемому");
+        }
     }
 }

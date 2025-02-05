@@ -14,6 +14,7 @@ public class QuestionsPage {
     // Locators
     private final By questionsLocator = By.xpath("//div[@data-accordion-component='AccordionItemHeading']");
     private final By answersLocator = By.xpath("//div[@data-accordion-component='AccordionItemPanel']");
+    private final By importantQuestionsSection = By.className("accordion");
 
     public QuestionsPage(WebDriver driver) {
         this.driver = driver;
@@ -26,7 +27,7 @@ public class QuestionsPage {
 
     public void clickQuestion(int index) {
         List<WebElement> questions = driver.findElements(questionsLocator);
-        if (index < questions.size()) {
+        if (index >= 0 && index < questions.size()) {
             WebElement question = questions.get(index);
             wait.until(ExpectedConditions.elementToBeClickable(question));
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", question); // Scroll to the question
@@ -38,20 +39,29 @@ public class QuestionsPage {
 
     public boolean isAnswerVisible(int index) {
         List<WebElement> answers = driver.findElements(answersLocator);
-        if (index < answers.size()) {
+        if (index >= 0 && index < answers.size()) {
             WebElement answer = answers.get(index);
             wait.until(ExpectedConditions.visibilityOf(answer));
             return answer.isDisplayed();
         }
         return false;
     }
+
     public boolean isAnswerTextCorrect(int index, String expectedText) {
         List<WebElement> answers = driver.findElements(answersLocator);
-        if (index < answers.size()) {
+        if (index >= 0 && index < answers.size()) {
             WebElement answer = answers.get(index);
             wait.until(ExpectedConditions.visibilityOf(answer));
             return answer.getText().contains(expectedText);
         }
         return false;
+    }
+
+    public QuestionsPage openImportantQuestionsSection() {
+        if (driver.findElement(importantQuestionsSection).isDisplayed()) {
+            return new QuestionsPage(driver);
+        } else {
+            throw new IllegalStateException("Important questions section is not displayed.");
+        }
     }
 }

@@ -19,15 +19,15 @@ public class OrderPage {
     private final By deliveryDateField = By.xpath("//input[@placeholder='* Когда привезти самокат']");
     private final By calendar = By.xpath("//*[@class='react-datepicker__day react-datepicker__day--013']");
     private final By rentalPeriodDropdown = By.className("Dropdown-control");
-    private final By rentalPeriodOption = By.xpath("//div[@class='Dropdown-menu']/div[text()='сутки']"); // Пример выбора "сутки"
+    private final By rentalPeriodOption = By.xpath("//div[@class='Dropdown-menu']/div[text()='сутки']");
     private final By commentField = By.xpath("//input[@placeholder='Комментарий для курьера']");
     private final By scooterСolor = By.xpath("//div[@class='Order_Checkboxes__3lWSI']");
     private final By scooterСolorBlack = By.id("black");
     private final By orderConfirmationButton = By.xpath("(//*[text()='Заказать'])[2]");
     private final By orderConfirmationButtonYes = By.xpath("//*[text()='Да']");
     private final By orderHasBeenPlaced = By.xpath("//*[text()='Заказ оформлен']");
-
     private final By successModal = By.className("Order_ModalHeader__3FDaJ");
+
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
