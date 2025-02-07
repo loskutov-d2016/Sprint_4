@@ -1,21 +1,32 @@
 package praktikum;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.testng.Assert;
 import pages.MainPage;
+import pages.OrderPage;
 import pages.QuestionsPage;
 
 
 public class QuestionsTest extends BaseTest {
 
+    private MainPage mainPage;
+    private QuestionsPage questionsPage;
+
+    @Before
+    public void setUpTest() {
+        // Открытие главной страницы
+        mainPage = new MainPage(driver);
+        mainPage.openMainPage();
+        // !!!МОЖНО СДЕЛАТЬ ТАК. вынес questionPage в тест, т.к возможн будет инои тестовый сценарии!!!
+//        questionsPage = mainPage.openImportantQuestionsSection();
+//        questionsPage.waitForPageToLoad();
+    }
+
     @Test
     public void testAllQuestionsOpenAnswers() {
-        MainPage mainPage = new MainPage(driver);
-        mainPage.openMainPage();
-
-        QuestionsPage questionsPage = mainPage.openImportantQuestionsSection();
+        questionsPage = mainPage.openImportantQuestionsSection();
         questionsPage.waitForPageToLoad();
-        questionsPage.openImportantQuestionsSection();
 
         String[] expectedTexts = {
                 "Сутки — 400 рублей. Оплата курьеру — наличными или картой.",

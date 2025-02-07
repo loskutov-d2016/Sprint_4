@@ -1,0 +1,7 @@
+# Игнорировать файлы и папки
+.DS_Store
+.idea/
+.vscode/
+build/
+target/
+*.iml

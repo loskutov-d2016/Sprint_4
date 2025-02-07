@@ -1,5 +1,6 @@
 package praktikum;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -21,6 +22,9 @@ public class OrderTests extends BaseTest {
     private final String orderComment;
     private final String orderButtonType;
 
+    private MainPage mainPage;
+    private OrderPage orderPage;
+
     public OrderTests(String name, String surname, String address, String metroStation, String phone,
                       String orderDuration, String orderComment, String orderButtonType) {
         this.name = name;
@@ -41,23 +45,27 @@ public class OrderTests extends BaseTest {
         });
     }
 
+    @Before
+    public void setUpTest() {
+        // Открытие главной страницы
+        mainPage = new MainPage(driver);
+        mainPage.openMainPage();
+        // !!!МОЖНО СДЕЛАТЬ ТАК. вынес в тест, т.к возможн будет инои тестовый сценарии!!!
+//        mainPage.clickOrderButton(orderButtonType);
+//        orderPage = new OrderPage(driver);
+    }
+
     @Test
     public void testOrderCreation() {
-//         Открытие главной страницы
-        MainPage mainPage = new MainPage(driver);
-        mainPage.openMainPage();
-
-//         Выбор кнопки "Заказать" в зависимости от типа
+        // Выбор кнопки "Заказать" в зависимости от типа
         mainPage.clickOrderButton(orderButtonType);
-
+        // Инициализация страницы заказа
+        orderPage = new OrderPage(driver);
         // Заполнение формы заказа
-        OrderPage orderPage = new OrderPage(driver);
         orderPage.fillOrderForm(name, surname, address, metroStation, phone);
         orderPage.fillSecondOrderForm(orderDuration, orderComment);
-
         // Подтверждение заказа
         orderPage.confirmOrder();
-
         // Проверка успешного отображения модального окна
         Assert.assertTrue(orderPage.isOrderSuccessModalDisplayed(), "Success modal is not displayed");
     }
